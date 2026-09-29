@@ -18,5 +18,6 @@ if [[ -e "$DEST" ]]; then
   print -u2 "Move it aside or remove it, then rerun this script."
   exit 1
 fi
-"$ENV_DIR/bin/mlx_lm.convert" --hf-path "$MODEL_ID" --mlx-path "$DEST"
+SNAPSHOT_PATH=$("$ENV_DIR/bin/python" -c 'from huggingface_hub import snapshot_download; import sys; print(snapshot_download(repo_id=sys.argv[1]))' "$MODEL_ID")
+"$ENV_DIR/bin/mlx_lm.convert" --hf-path "$SNAPSHOT_PATH" --mlx-path "$DEST"
 print "Qwen3-4B MLX model is ready at $DEST"

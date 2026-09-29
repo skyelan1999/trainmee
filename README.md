@@ -6,7 +6,7 @@ TrainMee 是面向 Apple Silicon 的本地 LoRA 增量训练与 OpenAI 兼容 AP
 
 默认模型为 [Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B)，模型卡标注 Apache-2.0。仓库不包含模型权重；初始化脚本会从 Hugging Face 下载并转换为 MLX 格式。请同时遵守模型仓库附带的许可和第三方组件声明。
 
-API 对外模型 ID 暂保留为 `qwen25-trainmee`，以兼容之前配置 OpenWebUI 的模型名；它实际提供的基座已改为 Qwen3-4B。该 ID 可通过 `TRAINMEE_MODEL_ID` 修改。
+API 默认对外模型 ID 为 `trainmee`，实际提供的基座为 Qwen3-4B。可通过 `TRAINMEE_MODEL_ID` 自定义此 ID。
 
 项目默认把 Python 环境、Hugging Face 下载缓存、基础模型、adapter、合并模型和日志放在项目目录的 `state/`，其中运行生成物由 `.gitignore` 排除，不会推入 Git。仓库只提交代码、文档和训练数据样例。
 
@@ -94,7 +94,7 @@ TRAINMEE_RESUME_ADAPTER="$PWD/state/adapters/qwen3-4b-lora/adapters.safetensors"
 curl http://127.0.0.1:8080/v1/models
 curl http://127.0.0.1:8080/v1/chat/completions \
   -H 'Content-Type: application/json' \
-  -d '{"model":"qwen25-trainmee","messages":[{"role":"user","content":"你好，请简要介绍你自己。"}],"max_tokens":120}'
+  -d '{"model":"trainmee","messages":[{"role":"user","content":"你好，请简要介绍你自己。"}],"max_tokens":120}'
 ```
 
 OpenWebUI 添加 OpenAI 连接：
@@ -102,7 +102,7 @@ OpenWebUI 添加 OpenAI 连接：
 - OpenWebUI 在 Mac Docker 容器中：`http://host.docker.internal:8080/v1`
 - OpenWebUI 直接运行在 Mac：`http://127.0.0.1:8080/v1`
 - API Key：可填 `trainmee-local` 占位值（本地代理目前不校验）
-- 模型 ID：`qwen25-trainmee`
+- 模型 ID：`trainmee`
 
 如果 Docker 内的 OpenWebUI 无法连接，在 Mac 上停止默认服务后以 `TRAINMEE_HOST=0.0.0.0 ./scripts/serve.command` 启动。API 当前没有鉴权，只在可信网络使用，不要暴露到公共网络。停止服务运行 `./scripts/stop.command`，或在服务终端按 Ctrl+C。
 

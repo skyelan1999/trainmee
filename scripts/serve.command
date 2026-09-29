@@ -51,5 +51,5 @@ python "$ROOT/scripts/api_proxy.py" \
   --host "${TRAINMEE_HOST:-127.0.0.1}" \
   --port "$API_PORT" \
   --upstream "http://127.0.0.1:$UPSTREAM_PORT" \
-  --model-id "${TRAINMEE_MODEL_ID:-qwen25-trainmee}" \
+  --model-id "${TRAINMEE_MODEL_ID:-trainmee}" \
   --upstream-model "$MODEL_PATH"

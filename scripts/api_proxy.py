@@ -117,7 +117,7 @@ def main():
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--upstream", default="http://127.0.0.1:8081")
-    parser.add_argument("--model-id", default="qwen25-trainmee")
+    parser.add_argument("--model-id", default="trainmee")
     parser.add_argument("--upstream-model", required=True)
     args = parser.parse_args()
     server = ThreadingHTTPServer((args.host, args.port), make_handler(
