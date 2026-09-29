@@ -1,4 +1,4 @@
-# trainee
+# trainmee
 
 a local ai for xiaomi
 
