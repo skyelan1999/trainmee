@@ -1,0 +1,1 @@
+{"messages":[{"role":"user","content":"增量微调会从零开始训练一个模型吗？"},{"role":"assistant","content":"不会。增量微调以已有预训练模型为起点，只针对目标任务继续调整模型参数或训练适配器。TrainMee 的默认流程使用 LoRA 适配器。"}]}

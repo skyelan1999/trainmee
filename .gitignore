@@ -1,0 +1,14 @@
+.venv/
+models/
+adapters/
+output/
+logs/
+state/
+hf_cache/
+*.safetensors
+*.gguf
+*.log
+.env
+.env.*
+__pycache__/
+.DS_Store
