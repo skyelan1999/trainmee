@@ -2,18 +2,21 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-STATE_ROOT="${TRAINMEE_STATE_DIR:-$HOME/Library/Application Support/TrainMee}"
+STATE_ROOT="${TRAINMEE_STATE_DIR:-$ROOT/state}"
 ENV_DIR="${TRAINMEE_ENV_DIR:-$STATE_ROOT/venv}"
 export HF_HOME="${HF_HOME:-$STATE_ROOT/huggingface}"
 source "$ENV_DIR/bin/activate"
-FUSED_MODEL="$STATE_ROOT/models/qwen25-3b-trainmee"
+FUSED_MODEL="$STATE_ROOT/models/qwen3-4b-trainmee"
 if [[ -n "${TRAINMEE_MODEL:-}" ]]; then
   MODEL_PATH="$TRAINMEE_MODEL"
 elif [[ -d "$FUSED_MODEL" ]]; then
   MODEL_PATH="$FUSED_MODEL"
+elif [[ -f "$STATE_ROOT/base-model/config.json" ]]; then
+  MODEL_PATH="$STATE_ROOT/base-model"
+  print "No fine-tuned model yet; serving the project-local Qwen3-4B base model."
 else
-  MODEL_PATH="Qwen/Qwen2.5-3B-Instruct"
-  print "No fine-tuned model yet; serving the Qwen2.5-3B-Instruct base model."
+  print -u2 "No model found. Run ./scripts/init-model.command first."
+  exit 1
 fi
 API_PORT="${TRAINMEE_PORT:-8080}"
 UPSTREAM_PORT="${TRAINMEE_UPSTREAM_PORT:-8081}"

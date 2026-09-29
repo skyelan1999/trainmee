@@ -2,20 +2,22 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-STATE_ROOT="${TRAINMEE_STATE_DIR:-$HOME/Library/Application Support/TrainMee}"
+STATE_ROOT="${TRAINMEE_STATE_DIR:-$ROOT/state}"
 ENV_DIR="${TRAINMEE_ENV_DIR:-$STATE_ROOT/venv}"
 export HF_HOME="${HF_HOME:-$STATE_ROOT/huggingface}"
 source "$ENV_DIR/bin/activate"
+BASE_MODEL="$STATE_ROOT/base-model"
+[[ -f "$BASE_MODEL/config.json" ]] || { print -u2 "Base model is missing. Run ./scripts/init-model.command first."; exit 1; }
 python scripts/check_dataset.py
 mkdir -p "$STATE_ROOT/adapters" "$STATE_ROOT/logs"
-ADAPTER_PATH="$STATE_ROOT/adapters/qwen25-3b-lora"
+ADAPTER_PATH="$STATE_ROOT/adapters/qwen3-4b-lora"
 if [[ -e "$ADAPTER_PATH" && -z "${TRAINMEE_RESUME_ADAPTER:-}" ]]; then
   print -u2 "Adapter already exists: $ADAPTER_PATH"
   print -u2 "Set TRAINMEE_RESUME_ADAPTER to its adapters.safetensors to continue, or move the old directory to keep it as a checkpoint."
   exit 1
 fi
 ARGS=(
-  --model Qwen/Qwen2.5-3B-Instruct \
+  --model "$BASE_MODEL" \
   --train \
   --data "$ROOT/data" \
   --iters "${TRAINMEE_ITERS:-100}" \

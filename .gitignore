@@ -1,9 +1,9 @@
+state/
 .venv/
 models/
 adapters/
 output/
 logs/
-state/
 hf_cache/
 *.safetensors
 *.gguf
