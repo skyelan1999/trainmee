@@ -9,7 +9,7 @@ DEST="$STATE_ROOT/base-model"
 [[ -x "$ENV_DIR/bin/mlx_lm.convert" ]] || { print -u2 "MLX-LM not found at $ENV_DIR. Create the Python 3.12 environment and install requirements.lock.txt first."; exit 1; }
 export HF_HOME="${HF_HOME:-$STATE_ROOT/huggingface}"
 mkdir -p "$STATE_ROOT" "$(dirname "$HF_HOME")"
-if [[ -f "$DEST/config.json" && -f "$DEST/model.safetensors" ]]; then
+if [[ -f "$DEST/config.json" && ( -f "$DEST/model.safetensors" || -f "$DEST/model.safetensors.index.json" ) ]]; then
   print "Qwen3-4B is already initialized at $DEST"
   exit 0
 fi
