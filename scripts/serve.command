@@ -21,7 +21,7 @@ fi
 API_PORT="${TRAINMEE_PORT:-8080}"
 UPSTREAM_PORT="${TRAINMEE_UPSTREAM_PORT:-8081}"
 mkdir -p "$STATE_ROOT/logs"
-mlx_lm.server --model "$MODEL_PATH" --host 127.0.0.1 --port "$UPSTREAM_PORT" \
+mlx_lm.server --model "$MODEL_PATH" --chat-template-args '{"enable_thinking":false}' --host 127.0.0.1 --port "$UPSTREAM_PORT" \
   > "$STATE_ROOT/logs/mlx-server.log" 2>&1 &
 MLX_PID=$!
 cleanup() {

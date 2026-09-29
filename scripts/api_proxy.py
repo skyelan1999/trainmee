@@ -100,8 +100,11 @@ def make_handler(upstream: str, model_id: str, upstream_model: str):
                 if self.path.split("?", 1)[0] == "/v1/models":
                     try:
                         parsed = json.loads(payload)
-                        for item in parsed.get("data", []):
-                            item["id"] = model_id
+                        models = parsed.get("data", [])
+                        if models:
+                            models = [models[0]]
+                            models[0]["id"] = model_id
+                        parsed["data"] = models
                         payload = json.dumps(parsed).encode("utf-8")
                     except (json.JSONDecodeError, AttributeError, TypeError):
                         pass

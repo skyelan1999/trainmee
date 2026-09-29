@@ -88,7 +88,7 @@ TRAINMEE_RESUME_ADAPTER="$PWD/state/adapters/qwen3-4b-lora/adapters.safetensors"
 ./scripts/serve.command
 ```
 
-默认监听 `127.0.0.1:8080`，OpenAI API 路径为 `/v1`。检查模型列表与对话接口：
+默认监听 `127.0.0.1:8080`，OpenAI API 路径为 `/v1`。为了让 OpenWebUI 直接显示最终回答，API 默认关闭 Qwen3 的思考模式。检查模型列表与对话接口：
 
 ```bash
 curl http://127.0.0.1:8080/v1/models
