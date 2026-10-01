@@ -72,7 +72,23 @@ adapter 和训练日志保存在 `state/adapters/` 与 `state/logs/`。已有 ad
 TRAINMEE_RESUME_ADAPTER="$PWD/state/adapters/qwen3-4b-lora/adapters.safetensors" ./scripts/train.command
 ```
 
-训练数据由你筛选、整理，项目不会自动读取 OpenWebUI 历史或自动吸收未审核回答。训练 loss 下降本身不能证明模型回答质量变好；应保留独立验证问题并人工比较训练前后的结果。
+训练数据由你筛选、整理，项目不会自动读取 OpenWebUI 历史或自动吸收未审核回答。训练 loss 下降本身不能证明模型回答质量变好；应保留独立验证问题并人工比较训练前后的结果。当前仓库的 `data/train.jsonl` 只有 2 条示例、`data/valid.jsonl` 只有 1 条示例，适合验证流程，不代表有实际领域效果。正式使用前，请替换为你筛选过的真实问答数据。
+
+## 命令行问答
+
+初始化并训练后，可直接用一条命令提问。脚本优先使用合并后的模型，其次加载 LoRA adapter，最后回退到未微调基座模型：
+
+```bash
+./scripts/ask.command "请简要说明 LoRA 是什么。"
+```
+
+也可以不带参数运行，然后在提示符输入问题：
+
+```bash
+./scripts/ask.command
+```
+
+生成长度默认 256 tokens，可通过 `TRAINMEE_MAX_TOKENS=512` 调整。
 
 ## 合并并启动 API
 
